@@ -1,14 +1,27 @@
 "use client";
 
-import {FC, useState} from "react";
+import {FC, useState, useRef, useEffect} from "react";
 import { Box, Typography, List, ListItem, Input, Button } from "@mui/material";
 import useTodoStore from "../../store";
 
-const Todolist: FC = () => {
+const ToDoList: FC = () => {
     const todos = useTodoStore((state) => state.todos);
     const { addTodo, editTodo, deleteTodo } = useTodoStore();
     const [inputValue, setInputValue] = useState('');
     const [editId, setEditId] = useState<number | null>(null);
+    const todoRef = useRef(null);
+
+    useEffect(() => {
+        if(todoRef.current){
+            todoRef.current.focus();
+        }
+    }, []);
+
+    useEffect(() => {
+        if(todoRef.current && editId){
+            todoRef.current.focus();
+        }
+    }, [editId]);
 
     const handleAddEdit = () => {
         if(editId){
@@ -30,6 +43,7 @@ const Todolist: FC = () => {
                     value={inputValue}
                     onChange={(e) => setInputValue(e.target.value)}
                     onKeyDown={(e) => e.key === 'Enter' && handleAddEdit()}
+                    inputRef={todoRef}
                 />
                 <Button
                     sx={{width: "100px"}}
@@ -80,4 +94,4 @@ const Todolist: FC = () => {
     );
 }
 
-export default Todolist;
+export default ToDoList;
