@@ -9,7 +9,7 @@ const ToDoList: FC = () => {
     const { addTodo, editTodo, deleteTodo } = useTodoStore();
     const [inputValue, setInputValue] = useState('');
     const [editId, setEditId] = useState<number | null>(null);
-    const todoRef = useRef(null);
+    const todoRef = useRef<HTMLInputElement | null>(null);
 
     useEffect(() => {
         if(todoRef.current){
