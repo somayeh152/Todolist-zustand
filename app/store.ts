@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-type Todo = {
+export type Todo = {
     id: number,
     text: string,
 }

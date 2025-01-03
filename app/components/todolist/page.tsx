@@ -1,27 +1,16 @@
-"use client";
+"use client"
 
-import {FC, useState, useRef, useEffect} from "react";
-import { Box, Typography, List, ListItem, Input, Button } from "@mui/material";
+import { FC, useState } from "react";
+import { Box, Typography } from "@mui/material";
 import useTodoStore from "../../store";
+import ToDoForm from "@/app/components/todoForm/page";
+import TodoItems from "@/app/components/todoItems/page";
 
 const ToDoList: FC = () => {
     const todos = useTodoStore((state) => state.todos);
     const { addTodo, editTodo, deleteTodo } = useTodoStore();
     const [inputValue, setInputValue] = useState('');
     const [editId, setEditId] = useState<number | null>(null);
-    const todoRef = useRef<HTMLInputElement | null>(null);
-
-    useEffect(() => {
-        if(todoRef.current){
-            todoRef.current.focus();
-        }
-    }, []);
-
-    useEffect(() => {
-        if(todoRef.current && editId){
-            todoRef.current.focus();
-        }
-    }, [editId]);
 
     const handleAddEdit = () => {
         if(editId){
@@ -33,63 +22,27 @@ const ToDoList: FC = () => {
         setInputValue("");
     }
 
+    const clearForm = () => {
+        setInputValue('');
+        setEditId(null);
+    }
+
     return (
-        <Box sx={{width: "100%", display: "flex", flexDirection: "column", alignItems: "center", paddingTop: 20}}>
+        <Box sx={{width: "100%", display: "flex", flexDirection: "column", alignItems: "center", paddingTop: "4rem"}}>
             <Typography variant="h3" color="textSecondary">Todolist</Typography>
-            <Box sx={{display: "flex", justifyContent: "center", marginTop: "3rem", marginBottom: "1rem"}}>
-                <Input
-                    sx={{marginRight: "1rem", width: 600}}
-                    placeholder="Write New Task..."
-                    value={inputValue}
-                    onChange={(e) => setInputValue(e.target.value)}
-                    onKeyDown={(e) => e.key === 'Enter' && handleAddEdit()}
-                    inputRef={todoRef}
-                />
-                <Button
-                    sx={{width: "100px"}}
-                    variant="contained"
-                    onClick={handleAddEdit}
-                >
-                    {editId ? "Save" : "Add"}
-                </Button>
-                <Button
-                    sx={{width: "100px", marginLeft: 1}}
-                    variant="outlined"
-                    onClick={() => {
-                        setInputValue('');
-                        setEditId(null);
-                    }}
-                >
-                    Clear
-                </Button>
-            </Box>
-            <List sx={{width: "80%"}}>
-                {todos?.map((todo) => (
-                    <ListItem key={todo.id} sx={{left: 0, borderBottom: '1px solid #999', display: "flex", justifyContent: "space-between",}} >
-                        <Typography>{todo.text}</Typography>
-                        <Box>
-                            <Button
-                                variant="outlined"
-                                color="success"
-                                onClick={() => {
-                                    setInputValue(todo.text);
-                                    setEditId(todo.id);
-                                }}
-                            >
-                                Edit
-                            </Button>
-                            <Button
-                                sx={{marginLeft: 1}}
-                                variant="outlined"
-                                color="error"
-                                onClick={() => deleteTodo(todo.id)}
-                            >
-                                Delete
-                            </Button>
-                        </Box>
-                    </ListItem>
-                ))}
-            </List>
+            <ToDoForm
+                inputValue={inputValue}
+                setInputValue={setInputValue}
+                handleAddEdit={handleAddEdit}
+                editId={editId}
+                clearForm={clearForm}
+            />
+            <TodoItems
+                todos={todos}
+                setInputValue={setInputValue}
+                setEditId={setEditId}
+                deleteTodo={deleteTodo}
+            />
         </Box>
     );
 }
