@@ -12,14 +12,19 @@ const ToDoList: FC = () => {
     const [inputValue, setInputValue] = useState('');
     const [editId, setEditId] = useState<number | null>(null);
 
-    const handleAddEdit = () => {
+    const handleAdd = () => {
+        if(!editId){
+            addTodo(inputValue);
+            setInputValue("");
+        }
+    }
+
+    const handleEdit = () => {
         if(editId){
             editTodo(editId, inputValue);
             setEditId(null);
-        } else {
-            addTodo(inputValue);
+            setInputValue("");
         }
-        setInputValue("");
     }
 
     const clearForm = () => {
@@ -33,7 +38,8 @@ const ToDoList: FC = () => {
             <ToDoForm
                 inputValue={inputValue}
                 setInputValue={setInputValue}
-                handleAddEdit={handleAddEdit}
+                handleAdd={handleAdd}
+                handleEdit={handleEdit}
                 editId={editId}
                 clearForm={clearForm}
             />
