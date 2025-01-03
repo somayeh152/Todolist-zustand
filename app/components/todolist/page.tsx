@@ -2,7 +2,7 @@
 
 import { FC, useState } from "react";
 import { Box, Typography } from "@mui/material";
-import useTodoStore from "../../store";
+import useTodoStore from "../../store/store";
 import ToDoForm from "@/app/components/todoForm/page";
 import TodoItems from "@/app/components/todoItems/page";
 

@@ -1,7 +1,7 @@
 "use client"
 
 import { FC } from "react";
-import { Todo } from '../../store';
+import { Todo } from '../../store/store';
 import { Box, Button, List, ListItem, Typography } from "@mui/material";
 
 type TodoItemsProps = {
