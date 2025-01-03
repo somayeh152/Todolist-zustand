@@ -3,8 +3,8 @@
 import { FC, useState } from "react";
 import { Box, Typography } from "@mui/material";
 import useTodoStore from "../../store/store";
-import ToDoForm from "@/app/components/todoForm/page";
-import TodoItems from "@/app/components/todoItems/page";
+import ToDoForm from "@/app/components/todoForm/todoForm";
+import TodoItems from "@/app/components/todoItems/todoItems";
 
 const ToDoList: FC = () => {
     const todos = useTodoStore((state) => state.todos);
