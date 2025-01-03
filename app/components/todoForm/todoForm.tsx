@@ -6,22 +6,17 @@ import { Box, Button, Input } from "@mui/material";
 type ToDoFormProps = {
     inputValue: string;
     setInputValue: (value: string) => void;
-    handleAddEdit: () => void;
+    handleAdd: () => void;
+    handleEdit: () => void;
     editId: number | null;
     clearForm: () => void;
 }
 
-const ToDoForm: FC<ToDoFormProps> = ({ inputValue, setInputValue, handleAddEdit, editId, clearForm}) => {
+const ToDoForm: FC<ToDoFormProps> = ({ inputValue, setInputValue, handleAdd, handleEdit, editId, clearForm}) => {
     const todoRef = useRef<HTMLInputElement | null>(null);
 
     useEffect(() => {
         if(todoRef.current){
-            todoRef.current.focus();
-        }
-    }, []);
-
-    useEffect(() => {
-        if(todoRef.current && editId){
             todoRef.current.focus();
         }
     }, [editId]);
@@ -33,13 +28,13 @@ const ToDoForm: FC<ToDoFormProps> = ({ inputValue, setInputValue, handleAddEdit,
                 placeholder="Write New Task..."
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
-                onKeyDown={(e) => e.key === 'Enter' && handleAddEdit()}
                 inputRef={todoRef}
+                onKeyDown={(e) => e.key === 'Enter' && (editId? handleEdit() : handleAdd())}
             />
             <Button
                 sx={{width: "100px"}}
                 variant="contained"
-                onClick={handleAddEdit}
+                onClick={editId ? handleEdit : handleAdd}
             >
                 {editId ? "Save" : "Add"}
             </Button>
